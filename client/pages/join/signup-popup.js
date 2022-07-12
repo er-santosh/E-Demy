@@ -1,23 +1,44 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+import Link from "next/link";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      fullname: data.get("fullname"),
-      email: data.get("email"),
-      password: data.get("password"),
+  const [formData, setFormData] = React.useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const onHandleInput = (e) => {
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        [e.target.name]: e.target.value,
+      };
     });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      setIsLoading(true);
+      await axios.post(`/api/register`, formData);
+      toast.success("Registration successfull, Please login.");
+      setIsLoading(false);
+    } catch (error) {
+      toast.error(error.response.data);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -38,11 +59,12 @@ const SignIn = () => {
             margin="normal"
             required
             fullWidth
-            id="fullname"
+            id="name"
             label="Fullname"
-            name="fullname"
-            autoComplete="fullname"
+            name="name"
+            autoComplete="name"
             autoFocus
+            onChange={onHandleInput}
           />
           <TextField
             margin="normal"
@@ -52,6 +74,7 @@ const SignIn = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
+            onChange={onHandleInput}
           />
           <TextField
             margin="normal"
@@ -62,28 +85,28 @@ const SignIn = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={onHandleInput}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Send me special offer,personalised recommendations, and learning tips"
           />
-          <Button
+
+          <LoadingButton
+            loading={isLoading}
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2, p: 1.5 }}
+            disabled={isLoading}
           >
             Sign Up
-          </Button>
+          </LoadingButton>
+
           <Typography>
             By signing up, you agree to our{" "}
-            <Link href="#" underline="always">
-              Terms of Use
-            </Link>{" "}
-            and{" "}
-            <Link href="#" underline="always">
-              Privacy Policy
-            </Link>
+            <Link href="?locale=en-US">Terms of Use</Link> and{" "}
+            <Link href="?locale=en-US">Privacy Policy</Link>
           </Typography>
           <Divider
             sx={{
@@ -92,13 +115,7 @@ const SignIn = () => {
           />
           <Typography>
             Already have an account?
-            <Link
-              href="/join/login-popup?locale=en-US"
-              variant="body2"
-              underline="always"
-            >
-              Log In
-            </Link>
+            <Link href="/join/login-popup?locale=en-US">Log In</Link>
           </Typography>
         </Box>
       </Box>

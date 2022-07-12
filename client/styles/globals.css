@@ -7,10 +7,17 @@ body {
 }
 
 a {
-  color: inherit;
+  color: purple;
   text-decoration: none;
 }
+
+p > a{
+  text-decoration: underline;
+}
+
+
 
 * {
   box-sizing: border-box;
 }
+

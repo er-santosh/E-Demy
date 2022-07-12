@@ -8,7 +8,7 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Badge from "@mui/material/Badge";
-
+import Link from "next/link";
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const AuthNavItem = ({ loggedIn }) => {
@@ -66,48 +66,52 @@ const AuthNavItem = ({ loggedIn }) => {
         </>
       ) : (
         <>
-          <Button
-            variant="outlined"
-            color="inherit"
-            component="a"
-            href="/join/login-popup?locale=en-US"
-            sx={{
-              mr: 1,
-              py: 1.4,
-              textTransform: "none",
-              display: {
-                xs: "none",
-                md: "inline",
-              },
-            }}
-          >
-            Log in
-          </Button>
-          <Button
-            variant="contained"
-            component="a"
-            href="/join/signup-popup?locale=en-US"
-            sx={{
-              mr: 1,
-              py: 1.5,
-              backgroundColor: "black",
-              textTransform: "none",
-              display: {
-                xs: "none",
-                md: "inline",
-              },
-              ":hover": {
+          <Link href="/join/login-popup?locale=en-US">
+            <Button
+              variant="outlined"
+              color="inherit"
+              children="Log In"
+              sx={{
+                mr: 1,
+                py: 1.1,
+                textTransform: "none",
+                display: {
+                  xs: "none",
+                  md: "inline",
+                },
+              }}
+            />
+          </Link>
+
+          <Link href="/join/signup-popup?locale=en-US">
+            <Button
+              variant="contained"
+              children="Sign Up"
+              sx={{
+                mr: 1,
+                py: 1.3,
                 backgroundColor: "black",
-              },
-            }}
-          >
-            Sign up
-          </Button>
+                textTransform: "none",
+                display: {
+                  xs: "none",
+                  md: "inline",
+                },
+                ":hover": {
+                  backgroundColor: "black",
+                },
+              }}
+            />
+          </Link>
+
           <IconButton
             size="small"
             color="inherit"
             sx={{
               border: "1px solid",
+              display: {
+                xs: "none",
+                md: "inline-flex",
+              },
             }}
             children={<LanguageIcon />}
           />

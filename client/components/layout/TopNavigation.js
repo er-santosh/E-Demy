@@ -22,7 +22,7 @@ function TopNavigation(props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const loggedIn = true;
+  const loggedIn = false;
   const isInstructor = loggedIn;
 
   return (

@@ -1,7 +1,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
+import Link from "next/link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -71,6 +71,7 @@ const SignIn = () => {
 
           {authAccountOptions.map((item) => (
             <AuthLoginOption
+              key={item.title}
               icon={item.icon}
               title={item.title}
               color={item.color}
@@ -123,33 +124,27 @@ const SignIn = () => {
             Sign In
           </Button>
           <Grid container spacing={1}>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+            <Grid item component="p">
+              <Link href="?locale=en-US">Forgot password?</Link>
             </Grid>
-            <Grid item>
-              <Link href="/join/signup-popup?locale=en-US" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+            <Grid item component="p">
+              Don't have an account?
+              <Link href="/join/signup-popup?locale=en-US">{"Sign Up"}</Link>
             </Grid>
-            <Typography
+            <Grid
+              item
+              component="p"
               sx={{
                 flexGrow: 1,
                 textAlign: "center",
                 my: 1,
+                fontWeight: "bold",
               }}
             >
-              <Link
-                href="#"
-                variant="body1"
-                sx={{
-                  fontWeight: "bold",
-                }}
-              >
+              <Link href="?locale=en-US">
                 {"Log in with your organization"}
               </Link>
-            </Typography>
+            </Grid>
           </Grid>
         </Box>
       </Box>
