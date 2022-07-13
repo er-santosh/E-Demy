@@ -9,9 +9,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Badge from "@mui/material/Badge";
 import Link from "next/link";
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../store/auth-reducer";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
-const AuthNavItem = ({ loggedIn }) => {
+const settings = ["Profile", "Account", "Dashboard"];
+
+const AuthNavItem = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -21,9 +26,20 @@ const AuthNavItem = ({ loggedIn }) => {
     setAnchorElUser(null);
   };
 
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+  const router = useRouter();
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push("/logout");
+    handleCloseUserMenu();
+    toast.success("User is logged out");
+  };
+
   return (
     <>
-      {loggedIn ? (
+      {user ? (
         <>
           <Tooltip title="Profile">
             <IconButton
@@ -62,6 +78,9 @@ const AuthNavItem = ({ loggedIn }) => {
                 <Typography textAlign="center">{setting}</Typography>
               </MenuItem>
             ))}
+            <MenuItem onClick={handleLogout}>
+              <Typography textAlign="center">Logout</Typography>
+            </MenuItem>
           </Menu>
         </>
       ) : (

@@ -14,7 +14,8 @@ import SearchBar from "../search/SearchBar";
 import CompanyLogo from "../Logo";
 import AuthNavItem from "../auth/AuthNavItem";
 import Badge from "@mui/material/Badge";
-
+import { useSelector } from "react-redux";
+import { Link } from "@mui/material";
 function TopNavigation(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -22,8 +23,9 @@ function TopNavigation(props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const loggedIn = false;
-  const isInstructor = loggedIn;
+  const { user } = useSelector((state) => state.auth);
+
+  const isInstructor = false;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -66,7 +68,6 @@ function TopNavigation(props) {
 
           <Box sx={{ flexGrow: 0 }}>
             <Typography
-              variant="p"
               component="a"
               href="/teaching/?ref=teach_header"
               noWrap
@@ -82,49 +83,27 @@ function TopNavigation(props) {
             >
               Edemy Business
             </Typography>
-            {/* if logged in and is instructor */}
-            {isInstructor ? (
-              <Typography
-                variant="p"
-                component="a"
-                href="/teaching/?ref=teach_header"
-                noWrap
-                sx={{
-                  mr: 2,
-                  fontSize: 14,
-                  color: "inherit",
-                  display: {
-                    xs: "none",
-                    md: "inline",
-                  },
-                }}
-              >
-                Instructor
-              </Typography>
-            ) : (
-              <Typography
-                variant="p"
-                component="a"
-                href="/teaching/?ref=teach_header"
-                noWrap
-                sx={{
-                  mr: 2,
-                  fontSize: 14,
-                  color: "inherit",
-                  display: {
-                    xs: "none",
-                    md: "inline",
-                  },
-                }}
-              >
-                Teach on Edemy
-              </Typography>
-            )}
+
+            <Typography
+              component="a"
+              href="/teaching/?ref=teach_header"
+              noWrap
+              sx={{
+                mr: 2,
+                fontSize: 14,
+                color: "inherit",
+                display: {
+                  xs: "none",
+                  md: "inline",
+                },
+              }}
+            >
+              {isInstructor ? "Instructor" : "Teach on Edemy"}
+            </Typography>
 
             {/* if logged in */}
-            {loggedIn && (
+            {user && (
               <Typography
-                variant="p"
                 component="a"
                 href="/teaching/?ref=teach_header"
                 noWrap
@@ -149,7 +128,7 @@ function TopNavigation(props) {
               <SearchIcon />
             </IconButton>
 
-            {loggedIn && (
+            {user && (
               <IconButton color="inherit" edge="start" sx={{ mr: 1 }}>
                 <Badge badgeContent={100} color="primary">
                   <FavoriteBorderOutlinedIcon />
@@ -163,7 +142,7 @@ function TopNavigation(props) {
               </Badge>
             </IconButton>
 
-            {loggedIn && (
+            {user && (
               <IconButton color="inherit" edge="start" sx={{ mr: 1 }}>
                 <Badge variant="dot" color="primary" overlap="circular">
                   <NotificationsNoneOutlinedIcon />
@@ -172,14 +151,14 @@ function TopNavigation(props) {
             )}
             {/* auth */}
 
-            <AuthNavItem loggedIn={loggedIn} />
+            <AuthNavItem />
           </Box>
         </Toolbar>
       </AppBar>
       <LeftDrawer
         handleDrawerToggle={handleDrawerToggle}
         mobileOpen={mobileOpen}
-        loggedIn={loggedIn}
+        user={user}
       />
     </Box>
   );

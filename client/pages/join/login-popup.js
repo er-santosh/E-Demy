@@ -1,5 +1,5 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import TextField from "@mui/material/TextField";
 import Link from "next/link";
 import Grid from "@mui/material/Grid";
@@ -14,6 +14,11 @@ import AuthLoginOption from "../../components/auth/AuthLoginOption";
 import FacebookIcon from "@mui/icons-material/FacebookRounded";
 import GoogleIcon from "@mui/icons-material/Google";
 import AppleIcon from "@mui/icons-material/Apple";
+import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { reset, login } from "../../store/auth-reducer";
+
 const authAccountOptions = [
   {
     icon: <FacebookIcon />,
@@ -33,13 +38,45 @@ const authAccountOptions = [
 ];
 
 const SignIn = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+  const [formData, setFormData] = React.useState({
+    email: "",
+    password: "",
+  });
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  React.useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (message !== "" && isSuccess) {
+      toast.success(message);
+    }
+    if (isSuccess || user) {
+      if (router.query && router.query.from) {
+        router.push(router.query.from);
+      }
+      router.push("/");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, router, dispatch]);
+
+  const onHandleInput = (e) => {
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        [e.target.name]: e.target.value,
+      };
     });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    dispatch(login(formData));
   };
 
   return (
@@ -95,6 +132,7 @@ const SignIn = () => {
                 </InputAdornment>
               ),
             }}
+            onChange={onHandleInput}
           />
           <TextField
             margin="normal"
@@ -113,16 +151,19 @@ const SignIn = () => {
                 </InputAdornment>
               ),
             }}
+            onChange={onHandleInput}
           />
 
-          <Button
+          <LoadingButton
+            loading={isLoading}
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2, py: 1.5 }}
+            sx={{ mt: 3, mb: 2, p: 1.5 }}
+            disabled={isLoading}
           >
             Sign In
-          </Button>
+          </LoadingButton>
           <Grid container spacing={1}>
             <Grid item component="p">
               <Link href="?locale=en-US">Forgot password?</Link>

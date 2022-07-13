@@ -1,7 +1,7 @@
 import User from "../models/user";
-import { hashPassword } from "../utils/auth";
-
-export const register = async (req, res) => {
+import { comparePassword, hashPassword } from "../utils/auth";
+import jwt from "jsonwebtoken";
+export const register = async (req, res, next) => {
   const { name, email, password } = req.body;
 
   try {
@@ -10,7 +10,7 @@ export const register = async (req, res) => {
     //check user if exist
     const userExist = await User.findOne({ email });
     if (userExist) {
-      return res.status(400).json("Email is already taken.");
+      res.status(400).json("Email is already taken.");
     }
 
     //hash password
@@ -23,8 +23,52 @@ export const register = async (req, res) => {
     });
     await user.save();
 
-    return res.json({ ok: true });
+    res.json({ ok: true });
   } catch (err) {
-    return res.status(500).json(err);
+    next(err);
+  }
+};
+
+export const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const userExist = await User.findOne({ email });
+    var date = new Date();
+    date.setTime(date.getTime() + 30 * 1000);
+    if (userExist && (await comparePassword(password, userExist.password))) {
+      const token = jwt.sign({ _id: userExist._id }, process.env.JWT_SECRET, {
+        expiresIn: date,
+      });
+
+      userExist.password = undefined;
+      res.cookie("token", token, {
+        httpOnly: true,
+        // secure:true
+      });
+
+      res.status(200).json(userExist);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Credentials");
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logout = async (req, res, next) => {
+  try {
+    await res.clearCookie("token");
+    res.json("User logged out");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const user = async (req, res, next) => {
+  try {
+    await res.json(req.user);
+  } catch (error) {
+    next(error);
   }
 };

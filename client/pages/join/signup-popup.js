@@ -8,16 +8,35 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
-import axios from "axios";
 import { toast } from "react-toastify";
-
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { reset, register } from "../../store/auth-reducer";
 const SignIn = () => {
   const [formData, setFormData] = React.useState({
     name: "",
     email: "",
     password: "",
   });
-  const [isLoading, setIsLoading] = React.useState(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  React.useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (message !== "" && isSuccess) {
+      toast.success(message);
+    }
+    if (isSuccess || user) {
+      router.push("/join/login-popup?locale=en-US");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, router, dispatch]);
 
   const onHandleInput = (e) => {
     setFormData((prevData) => {
@@ -30,15 +49,7 @@ const SignIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      setIsLoading(true);
-      await axios.post(`/api/register`, formData);
-      toast.success("Registration successfull, Please login.");
-      setIsLoading(false);
-    } catch (error) {
-      toast.error(error.response.data);
-      setIsLoading(false);
-    }
+    dispatch(register(formData));
   };
 
   return (
