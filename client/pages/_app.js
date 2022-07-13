@@ -5,20 +5,31 @@ import CustomTheme from "../customs/CustomMuiTheme";
 import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import store, { persistor } from "../store";
-import { Provider } from "react-redux";
+import ReduxProvider from "../providers/ReduxProvider";
 import { PersistGate } from "redux-persist/integration/react";
+import { AuthGuard } from "../guards/AuthGuard";
+import { PageTransitionLoader } from "../components/loader/PageTransitionLoader";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Provider store={store}>
+    <ReduxProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={CustomTheme}>
           <ToastContainer theme="colored" transition={Slide} />
           <TopNavigation />
-          <Component {...pageProps} />
+          {/* <PageTransitionLoader /> */}
+          {/* if requireAuth property is present - protect the page */}
+          {Component.requiresAuth ? (
+            <AuthGuard>
+              <Component {...pageProps} />
+            </AuthGuard>
+          ) : (
+            // public page
+            <Component {...pageProps} />
+          )}
         </ThemeProvider>
       </PersistGate>
-    </Provider>
+    </ReduxProvider>
   );
 }
 

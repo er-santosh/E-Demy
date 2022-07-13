@@ -4,7 +4,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import * as React from "react";
-const logoutPage = () => {
+const LogoutPage = () => {
   const router = useRouter();
 
   const { user } = useSelector((state) => state.auth);
@@ -41,4 +41,4 @@ const logoutPage = () => {
   );
 };
 
-export default logoutPage;
+export default LogoutPage;

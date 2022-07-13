@@ -15,7 +15,7 @@ import CompanyLogo from "../Logo";
 import AuthNavItem from "../auth/AuthNavItem";
 import Badge from "@mui/material/Badge";
 import { useSelector } from "react-redux";
-import { Link } from "@mui/material";
+
 function TopNavigation(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 

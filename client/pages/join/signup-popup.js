@@ -11,8 +11,8 @@ import Divider from "@mui/material/Divider";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { reset, register } from "../../store/auth-reducer";
-const SignIn = () => {
+import { reset, register } from "../../store/AuthReducer";
+const SignUpPage = () => {
   const [formData, setFormData] = React.useState({
     name: "",
     email: "",
@@ -28,11 +28,13 @@ const SignIn = () => {
     if (isError) {
       toast.error(message);
     }
-    if (message !== "" && isSuccess) {
-      toast.success(message);
-    }
+
     if (isSuccess || user) {
       router.push("/join/login-popup?locale=en-US");
+    }
+
+    if (message !== "" && isSuccess) {
+      toast.success(message);
     }
 
     dispatch(reset());
@@ -49,7 +51,7 @@ const SignIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(register(formData));
+    await dispatch(register(formData));
   };
 
   return (
@@ -133,4 +135,4 @@ const SignIn = () => {
     </Container>
   );
 };
-export default SignIn;
+export default SignUpPage;

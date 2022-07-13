@@ -17,7 +17,7 @@ import AppleIcon from "@mui/icons-material/Apple";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { reset, login } from "../../store/auth-reducer";
+import { reset, login } from "../../store/AuthReducer";
 
 const authAccountOptions = [
   {
@@ -37,7 +37,7 @@ const authAccountOptions = [
   },
 ];
 
-const SignIn = () => {
+const SignInPage = () => {
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
@@ -52,14 +52,16 @@ const SignIn = () => {
     if (isError) {
       toast.error(message);
     }
-    if (message !== "" && isSuccess) {
-      toast.success(message);
-    }
+
     if (isSuccess || user) {
       if (router.query && router.query.from) {
         router.push(router.query.from);
       }
       router.push("/");
+    }
+
+    if (message !== "" && isSuccess) {
+      toast.success(message);
     }
 
     dispatch(reset());
@@ -76,7 +78,7 @@ const SignIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(login(formData));
+    await dispatch(login(formData));
   };
 
   return (
@@ -192,4 +194,4 @@ const SignIn = () => {
     </Container>
   );
 };
-export default SignIn;
+export default SignInPage;

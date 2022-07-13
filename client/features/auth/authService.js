@@ -20,10 +20,10 @@ const logout = async () => {
   return response.data;
 };
 
-const authService = {
+const AuthService = {
   register,
   logout,
   login,
 };
 
-export default authService;
+export default AuthService;

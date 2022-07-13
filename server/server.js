@@ -6,6 +6,7 @@ import { readdirSync } from "fs";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./middlewares/errorMiddleware";
+import csrf from "csurf";
 
 /* create express app */
 const app = express();
@@ -31,7 +32,14 @@ readdirSync("./routes").map((route) =>
   app.use("/api", require(`./routes/${route}`))
 );
 
+/* error handling middleware */
 app.use(errorHandler);
+
+app.use(csrf({ cookie: true }));
+
+app.get("/api/csrf-token", (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
 const PORT = process.env.PORT || 8000;
 

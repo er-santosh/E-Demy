@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import authReducer from "./auth-reducer";
+import AuthReducer from "./AuthReducer";
 import {
   persistStore,
   persistReducer,
@@ -12,7 +12,6 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { encryptTransform } from "redux-persist-transform-encrypt";
-import { axiosMiddleware } from "../features/axios/axiosInterceptor";
 
 const persistConfig = {
   key: "root",
@@ -20,7 +19,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  auth: authReducer,
+  auth: AuthReducer,
 });
 
 const persistedReducer = persistReducer(
@@ -45,7 +44,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(axiosMiddleware);
+    });
   },
 });
 

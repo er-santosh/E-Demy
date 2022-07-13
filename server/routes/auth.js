@@ -1,10 +1,10 @@
 import express from "express";
-import { login, logout, register, user } from "../controllers/auth";
-import { auth } from "../middlewares/authMiddleware";
+import { login, logout, register, currentUser } from "../controllers/auth";
+import { requireSignin } from "../middlewares/authMiddleware";
 const router = express.Router();
 
 router.post("/login", login);
 router.post("/register", register);
 router.post("/logout", logout);
-router.get("/user", auth, user);
+router.get("/current-user", requireSignin, currentUser);
 module.exports = router;

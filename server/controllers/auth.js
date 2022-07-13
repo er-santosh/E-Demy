@@ -33,11 +33,9 @@ export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const userExist = await User.findOne({ email });
-    var date = new Date();
-    date.setTime(date.getTime() + 30 * 1000);
     if (userExist && (await comparePassword(password, userExist.password))) {
       const token = jwt.sign({ _id: userExist._id }, process.env.JWT_SECRET, {
-        expiresIn: date,
+        expiresIn: "7d",
       });
 
       userExist.password = undefined;
@@ -65,9 +63,10 @@ export const logout = async (req, res, next) => {
   }
 };
 
-export const user = async (req, res, next) => {
+export const currentUser = async (req, res, next) => {
   try {
-    await res.json(req.user);
+    const user = await User.findById(req.auth._id).select("-password");
+    res.json(user);
   } catch (error) {
     next(error);
   }

@@ -10,11 +10,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Badge from "@mui/material/Badge";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/auth-reducer";
+import { logout } from "../../store/AuthReducer";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
-const settings = ["Profile", "Account", "Dashboard"];
+const settings = ["Account", "Dashboard"];
 
 const AuthNavItem = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -30,8 +30,8 @@ const AuthNavItem = () => {
   const { user } = useSelector((state) => state.auth);
 
   const router = useRouter();
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logout());
     router.push("/logout");
     handleCloseUserMenu();
     toast.success("User is logged out");
@@ -73,6 +73,11 @@ const AuthNavItem = () => {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
+            <Link href="/user/edit-profile">
+              <MenuItem>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+            </Link>
             {settings.map((setting) => (
               <MenuItem key={setting} onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">{setting}</Typography>
