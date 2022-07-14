@@ -1,13 +1,16 @@
-import * as React from "react";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import LanguageIcon from "@mui/icons-material/Language";
-import Tooltip from "@mui/material/Tooltip";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Badge from "@mui/material/Badge";
+import {
+  Button,
+  IconButton,
+  Typography,
+  Tooltip,
+  Avatar,
+  Menu,
+  MenuItem,
+  Badge,
+} from "mui";
+import { LanguageIcon } from "mui/icon";
+
+import { useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/AuthReducer";
@@ -17,7 +20,7 @@ import { useRouter } from "next/router";
 const settings = ["Account", "Dashboard"];
 
 const AuthNavItem = () => {
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -94,7 +97,6 @@ const AuthNavItem = () => {
             <Button
               variant="outlined"
               color="inherit"
-              children="Log In"
               sx={{
                 mr: 1,
                 py: 1.1,
@@ -104,13 +106,14 @@ const AuthNavItem = () => {
                   md: "inline",
                 },
               }}
-            />
+            >
+              Log In
+            </Button>
           </Link>
 
           <Link href="/join/signup-popup?locale=en-US">
             <Button
               variant="contained"
-              children="Sign Up"
               sx={{
                 mr: 1,
                 py: 1.3,
@@ -124,7 +127,9 @@ const AuthNavItem = () => {
                   backgroundColor: "black",
                 },
               }}
-            />
+            >
+              Sign Up
+            </Button>
           </Link>
 
           <IconButton
@@ -137,8 +142,9 @@ const AuthNavItem = () => {
                 md: "inline-flex",
               },
             }}
-            children={<LanguageIcon />}
-          />
+          >
+            <LanguageIcon />
+          </IconButton>
         </>
       )}
     </>

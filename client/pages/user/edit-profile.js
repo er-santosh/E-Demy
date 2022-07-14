@@ -1,4 +1,4 @@
-import { Container, Typography } from "@mui/material";
+import { Container, Typography } from "mui";
 import { useSelector } from "react-redux";
 
 const EditProfile = () => {

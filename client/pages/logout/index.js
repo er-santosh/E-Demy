@@ -1,15 +1,15 @@
-import { Box, Typography } from "@mui/material";
-import Container from "@mui/material/Container";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { Box, Typography, Container } from "mui";
+import { CheckCircleIcon } from "mui/icon";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import * as React from "react";
+import { useEffect } from "react";
+
 const LogoutPage = () => {
   const router = useRouter();
 
   const { user } = useSelector((state) => state.auth);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       router.push("/");
     }

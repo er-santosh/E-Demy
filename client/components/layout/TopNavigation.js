@@ -1,19 +1,18 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import SearchIcon from "@mui/icons-material/Search";
+
+import { AppBar, Box, IconButton, Toolbar, Typography, Badge } from "mui";
+import {
+  MenuIcon,
+  AddShoppingCartIcon,
+  FavoriteBorderOutlinedIcon,
+  NotificationsNoneOutlinedIcon,
+  SearchIcon,
+} from "mui/icon";
+
 import LeftDrawer from "./LeftDrawer";
 import SearchBar from "../search/SearchBar";
 import CompanyLogo from "../Logo";
 import AuthNavItem from "../auth/AuthNavItem";
-import Badge from "@mui/material/Badge";
 import { useSelector } from "react-redux";
 
 function TopNavigation(props) {

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Container, Box, Backdrop } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Container, Box, Backdrop } from "mui";
 import { ScaleLoader } from "react-spinners";
 import { useRouter } from "next/router";
 export const PageTransitionLoader = () => {
   const router = useRouter();
   const [isLoaderVisible, setIsLoaderVisible] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       setIsLoaderVisible(true);
     };
@@ -24,7 +24,7 @@ export const PageTransitionLoader = () => {
       router.events.off("routeChangeStart", handleRouteChange);
       router.events.off("routeChangeComplete", handleRouteComplete);
     };
-  }, []);
+  }, [router]);
 
   if (isLoaderVisible) {
     return (

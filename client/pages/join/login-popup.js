@@ -1,19 +1,23 @@
-import * as React from "react";
-import LoadingButton from "@mui/lab/LoadingButton";
-import TextField from "@mui/material/TextField";
+import { useState, useEffect } from "react";
+import {
+  TextField,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  Divider,
+  InputAdornment,
+} from "mui";
+import { LoadingButton } from "mui/lab";
+import {
+  MailIcon,
+  LockIcon,
+  FacebookIcon,
+  GoogleIcon,
+  AppleIcon,
+} from "mui/icon";
 import Link from "next/link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
-import InputAdornment from "@mui/material/InputAdornment";
-import MailIcon from "@mui/icons-material/Mail";
-import LockIcon from "@mui/icons-material/Lock";
 import AuthLoginOption from "../../components/auth/AuthLoginOption";
-import FacebookIcon from "@mui/icons-material/FacebookRounded";
-import GoogleIcon from "@mui/icons-material/Google";
-import AppleIcon from "@mui/icons-material/Apple";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
@@ -38,7 +42,7 @@ const authAccountOptions = [
 ];
 
 const SignInPage = () => {
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
@@ -48,7 +52,7 @@ const SignInPage = () => {
     (state) => state.auth
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isError) {
       toast.error(message);
     }
@@ -171,7 +175,7 @@ const SignInPage = () => {
               <Link href="?locale=en-US">Forgot password?</Link>
             </Grid>
             <Grid item component="p">
-              Don't have an account?
+              {`Don't have an account?`}
               <Link href="/join/signup-popup?locale=en-US">{"Sign Up"}</Link>
             </Grid>
             <Grid

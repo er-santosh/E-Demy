@@ -1,19 +1,23 @@
-import * as React from "react";
-import LoadingButton from "@mui/lab/LoadingButton";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import { useState, useEffect } from "react";
+import {
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Box,
+  Typography,
+  Container,
+  Divider,
+} from "mui";
+
+import { LoadingButton } from "mui/lab";
+
 import Link from "next/link";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { reset, register } from "../../store/AuthReducer";
 const SignUpPage = () => {
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
@@ -24,7 +28,7 @@ const SignUpPage = () => {
     (state) => state.auth
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isError) {
       toast.error(message);
     }
