@@ -5,7 +5,7 @@ require("dotenv").config();
 import { readdirSync } from "fs";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import { errorHandler } from "./middlewares/errorMiddleware";
+import { errorHandler } from "./utils/errorHandler";
 import csrf from "csurf";
 
 /* create express app */

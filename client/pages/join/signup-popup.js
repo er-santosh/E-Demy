@@ -53,17 +53,6 @@ const SignUpPage = () => {
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
-
-  useEffect(() => {
-    //error and success toast is handled in authnavitem useEffect
-
-    if (isSuccess || user) {
-      router.push("/");
-    }
-
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, router, dispatch]);
-
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -95,7 +84,7 @@ const SignUpPage = () => {
             margin="normal"
             fullWidth
             id="email"
-            label="Email Address"
+            label="Email "
             name="email"
             autoComplete="email"
             value={formik.values.email}

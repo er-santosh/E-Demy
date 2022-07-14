@@ -16,13 +16,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../../store/AuthReducer";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { FallbackLoader } from "components/loader/FallbackLoader";
 
 const settings = ["Account", "Dashboard"];
 
 const AuthNavItem = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [loading, setLoading] = useState(false);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -42,10 +40,6 @@ const AuthNavItem = () => {
   };
 
   useEffect(() => {
-    if (isLoading) {
-      setLoading(true);
-    }
-
     if (isError) {
       toast.error(message);
     }
@@ -59,14 +53,7 @@ const AuthNavItem = () => {
     }
     handleCloseUserMenu();
     dispatch(reset());
-    return () => {
-      setLoading(false);
-    };
   }, [user, isError, isSuccess, message, isLoading, router, dispatch]);
-
-  if (loading) {
-    return <FallbackLoader />;
-  }
 
   return (
     <>

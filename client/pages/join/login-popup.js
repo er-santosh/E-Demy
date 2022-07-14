@@ -121,7 +121,7 @@ const SignInPage = () => {
             margin="normal"
             fullWidth
             id="email"
-            label="Email Address"
+            label="Email "
             name="email"
             autoComplete="email"
             placeholder="Email Address"
@@ -171,7 +171,7 @@ const SignInPage = () => {
           </LoadingButton>
           <Grid container spacing={1}>
             <Grid item component="p">
-              <Link href="?locale=en-US">Forgot password?</Link>
+              <Link href="/user/forgot-password">Forgot password?</Link>
             </Grid>
             <Grid item component="p">
               {`Don't have an account?`}

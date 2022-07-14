@@ -10,3 +10,4 @@ export { default as FacebookIcon } from "@mui/icons-material/FacebookRounded";
 export { default as GoogleIcon } from "@mui/icons-material/Google";
 export { default as AppleIcon } from "@mui/icons-material/Apple";
 export { default as CheckCircleIcon } from "@mui/icons-material/CheckCircle";
+export { default as DangerousIcon } from "@mui/icons-material/Dangerous";

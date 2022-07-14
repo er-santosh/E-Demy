@@ -17,7 +17,6 @@ const EditProfile = () => {
     </Container>
   );
 };
+EditProfile.requiresAuth = true;
 
 export default EditProfile;
-
-EditProfile.requiresAuth = true;
