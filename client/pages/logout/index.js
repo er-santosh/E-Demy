@@ -1,19 +1,6 @@
 import { Box, Typography, Container } from "mui";
 import { CheckCircleIcon } from "mui/icon";
-import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-
 const LogoutPage = () => {
-  const router = useRouter();
-
-  const { user } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
   return (
     <Container
       sx={{
@@ -40,5 +27,7 @@ const LogoutPage = () => {
     </Container>
   );
 };
+
+LogoutPage.isGuest = true;
 
 export default LogoutPage;

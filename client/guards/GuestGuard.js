@@ -3,25 +3,19 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-export function AuthGuard({ children }) {
+export function GuestGuard({ children }) {
   const { user } = useSelector((state) => state.auth);
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) {
+    if (user) {
       // redirect
-      router.push({
-        pathname: "/join/login-popup",
-        query: {
-          locale: "en-US",
-          from: router.pathname,
-        },
-      });
+      router.push("/");
     }
   }, [router, user]);
 
   // if auth initialized with a valid user show protected page
-  if (user) {
+  if (!user) {
     return <>{children}</>;
   }
 

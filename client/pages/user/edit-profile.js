@@ -13,7 +13,7 @@ const EditProfile = () => {
         p: 6,
       }}
     >
-      <Typography>{user.name}</Typography>
+      <Typography>hello user {user.name}</Typography>
     </Container>
   );
 };

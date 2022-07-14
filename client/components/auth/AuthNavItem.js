@@ -10,17 +10,19 @@ import {
 } from "mui";
 import { LanguageIcon } from "mui/icon";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/AuthReducer";
+import { logout, reset } from "../../store/AuthReducer";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { FallbackLoader } from "components/loader/FallbackLoader";
 
 const settings = ["Account", "Dashboard"];
 
 const AuthNavItem = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [loading, setLoading] = useState(false);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -30,15 +32,41 @@ const AuthNavItem = () => {
   };
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user, isError, isSuccess, isLoading, message } = useSelector(
+    (state) => state.auth
+  );
 
   const router = useRouter();
   const handleLogout = async () => {
     await dispatch(logout());
-    router.push("/logout");
-    handleCloseUserMenu();
-    toast.success("User is logged out");
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      setLoading(true);
+    }
+
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess && !user) {
+      router.push("/logout");
+    }
+
+    if (message !== "" && isSuccess) {
+      toast.success(message);
+    }
+    handleCloseUserMenu();
+    dispatch(reset());
+    return () => {
+      setLoading(false);
+    };
+  }, [user, isError, isSuccess, message, isLoading, router, dispatch]);
+
+  if (loading) {
+    return <FallbackLoader />;
+  }
 
   return (
     <>

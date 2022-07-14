@@ -11,6 +11,8 @@ import { PageTransitionLoader } from "../components/loader/PageTransitionLoader"
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { FallbackLoader } from "../components/loader/FallbackLoader";
+import { GuestGuard } from "guards/GuestGuard";
+import { useRouter } from "next/router";
 
 const TopNavigation = dynamic(
   () => import("../components/layout/TopNavigation"),
@@ -20,6 +22,8 @@ const TopNavigation = dynamic(
 );
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+
   return (
     <ReduxProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -27,12 +31,17 @@ function MyApp({ Component, pageProps }) {
           <ToastContainer theme="colored" transition={Slide} />
           {/* <PageTransitionLoader /> */}
           <Suspense fallback={<FallbackLoader />}>
-            <TopNavigation />
+            {router.pathname !== "/_error" && <TopNavigation />}
             {/* if requiresAuth property is present - protect the page */}
             {Component.requiresAuth ? (
               <AuthGuard>
                 <Component {...pageProps} />
               </AuthGuard>
+            ) : Component.isGuest ? (
+              // guest page like login,signup...
+              <GuestGuard>
+                <Component {...pageProps} />
+              </GuestGuard>
             ) : (
               // public page
               <Component {...pageProps} />

@@ -10,7 +10,8 @@ export const register = async (req, res, next) => {
     //check user if exist
     const userExist = await User.findOne({ email });
     if (userExist) {
-      res.status(400).json("Email is already taken.");
+      res.status(400);
+      throw new Error("Email is already taken");
     }
 
     //hash password
@@ -22,8 +23,8 @@ export const register = async (req, res, next) => {
       password: hashedPassword,
     });
     await user.save();
-
-    res.json({ ok: true });
+    user.password = undefined;
+    res.json({ user, message: "User signed up successfully" });
   } catch (err) {
     next(err);
   }
@@ -44,7 +45,9 @@ export const login = async (req, res, next) => {
         // secure:true
       });
 
-      res.status(200).json(userExist);
+      res
+        .status(200)
+        .json({ user: userExist, message: "User logged in successfully" });
     } else {
       res.status(400);
       throw new Error("Invalid Credentials");
@@ -57,7 +60,9 @@ export const login = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     await res.clearCookie("token");
-    res.json("User logged out");
+    res.json({
+      message: "User is logged out",
+    });
   } catch (error) {
     next(error);
   }

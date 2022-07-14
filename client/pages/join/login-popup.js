@@ -23,6 +23,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { reset, login } from "../../store/AuthReducer";
 
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+const loginSchema = yup.object({
+  email: yup
+    .string("Enter your email")
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup.string("Enter your password").required("Password is required"),
+});
+
 const authAccountOptions = [
   {
     icon: <FacebookIcon />,
@@ -42,9 +53,15 @@ const authAccountOptions = [
 ];
 
 const SignInPage = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginSchema,
+    onSubmit: async (values) => {
+      await dispatch(login(values));
+    },
   });
   const router = useRouter();
   const dispatch = useDispatch();
@@ -53,37 +70,17 @@ const SignInPage = () => {
   );
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
+    //error and success toast is handled in authnavitem useEffect
 
     if (isSuccess || user) {
       if (router.query && router.query.from) {
         router.push(router.query.from);
+      } else {
+        router.push("/");
       }
-      router.push("/");
     }
-
-    if (message !== "" && isSuccess) {
-      toast.success(message);
-    }
-
     dispatch(reset());
   }, [user, isError, isSuccess, message, router, dispatch]);
-
-  const onHandleInput = (e) => {
-    setFormData((prevData) => {
-      return {
-        ...prevData,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await dispatch(login(formData));
-  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -105,7 +102,7 @@ const SignInPage = () => {
           Log In to Your Udemy Account!
         </Typography>
 
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
           <Divider
             sx={{
               my: 2,
@@ -120,17 +117,14 @@ const SignInPage = () => {
               color={item.color}
             />
           ))}
-
           <TextField
             margin="normal"
-            required
             fullWidth
             id="email"
             label="Email Address"
             name="email"
             autoComplete="email"
-            placeholder="Email"
-            autoFocus
+            placeholder="Email Address"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -138,11 +132,13 @@ const SignInPage = () => {
                 </InputAdornment>
               ),
             }}
-            onChange={onHandleInput}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
             margin="normal"
-            required
             fullWidth
             name="password"
             label="Password"
@@ -157,7 +153,10 @@ const SignInPage = () => {
                 </InputAdornment>
               ),
             }}
-            onChange={onHandleInput}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
           />
 
           <LoadingButton
@@ -198,4 +197,7 @@ const SignInPage = () => {
     </Container>
   );
 };
+
+SignInPage.isGuest = true;
+
 export default SignInPage;

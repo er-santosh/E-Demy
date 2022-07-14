@@ -15,12 +15,38 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { reset, register } from "../../store/AuthReducer";
+import { reset, register, login } from "../../store/AuthReducer";
+
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+const signupSchema = yup.object({
+  name: yup
+    .string("Enter your name")
+    .max(32, "Name should not exceed 32 characters of length")
+    .required("Name is required"),
+  email: yup
+    .string("Enter your email")
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
+});
+
 const SignUpPage = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      sendRecommendation: false,
+    },
+    validationSchema: signupSchema,
+    onSubmit: async (values) => {
+      await dispatch(register(values));
+    },
   });
   const router = useRouter();
   const dispatch = useDispatch();
@@ -29,34 +55,14 @@ const SignUpPage = () => {
   );
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
+    //error and success toast is handled in authnavitem useEffect
 
     if (isSuccess || user) {
-      router.push("/join/login-popup?locale=en-US");
-    }
-
-    if (message !== "" && isSuccess) {
-      toast.success(message);
+      router.push("/");
     }
 
     dispatch(reset());
   }, [user, isError, isSuccess, message, router, dispatch]);
-
-  const onHandleInput = (e) => {
-    setFormData((prevData) => {
-      return {
-        ...prevData,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await dispatch(register(formData));
-  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -71,41 +77,54 @@ const SignUpPage = () => {
         <Typography component="h1" variant="h5">
           Sign Up and start learning
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
-            required
             fullWidth
             id="name"
             label="Fullname"
             name="name"
             autoComplete="name"
             autoFocus
-            onChange={onHandleInput}
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
           />
           <TextField
             margin="normal"
-            required
             fullWidth
             id="email"
             label="Email Address"
             name="email"
             autoComplete="email"
-            onChange={onHandleInput}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
             margin="normal"
-            required
             fullWidth
             name="password"
             label="Password"
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={onHandleInput}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={
+              <Checkbox
+                color="primary"
+                name="sendRecommendation"
+                value={formik.values.sendRecommendation}
+                onChange={formik.handleChange}
+              />
+            }
             label="Send me special offer,personalised recommendations, and learning tips"
           />
 
@@ -139,4 +158,7 @@ const SignUpPage = () => {
     </Container>
   );
 };
+
+SignUpPage.isGuest = true;
+
 export default SignUpPage;
