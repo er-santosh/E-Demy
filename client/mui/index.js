@@ -3,6 +3,7 @@ export { default as Toolbar } from "@mui/material/Toolbar";
 export { default as Drawer } from "@mui/material/Drawer";
 export { default as Container } from "@mui/material/Container";
 export { default as Backdrop } from "@mui/material/Backdrop";
+export { default as Skeleton } from "@mui/material/Skeleton";
 export { default as Box } from "@mui/material/Box";
 export { default as Grid } from "@mui/material/Grid";
 export { default as Typography } from "@mui/material/Typography";

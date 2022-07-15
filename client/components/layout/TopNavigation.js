@@ -1,5 +1,5 @@
-import * as React from "react";
-
+import { useState } from "react";
+import dynamic from "next/dynamic";
 import { AppBar, Box, IconButton, Toolbar, Typography, Badge } from "mui";
 import {
   MenuIcon,
@@ -8,15 +8,14 @@ import {
   NotificationsNoneOutlinedIcon,
   SearchIcon,
 } from "mui/icon";
-
-import LeftDrawer from "./LeftDrawer";
-import SearchBar from "../search/SearchBar";
-import CompanyLogo from "../Logo";
-import AuthNavItem from "../auth/AuthNavItem";
+import SearchBar from "components/search/SearchBar";
+import CompanyLogo from "components/Logo";
+const LeftDrawer = dynamic(() => import("./LeftDrawer"));
+const AuthNavItem = dynamic(() => import("../auth/AuthNavItem"));
 import { useSelector } from "react-redux";
 
-function TopNavigation(props) {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+const TopNavigation = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -62,7 +61,6 @@ function TopNavigation(props) {
           >
             Categories
           </Typography>
-
           <SearchBar />
 
           <Box sx={{ flexGrow: 0 }}>
@@ -100,7 +98,6 @@ function TopNavigation(props) {
               {isInstructor ? "Instructor" : "Teach on Edemy"}
             </Typography>
 
-            {/* if logged in */}
             {user && (
               <Typography
                 component="a"
@@ -148,7 +145,6 @@ function TopNavigation(props) {
                 </Badge>
               </IconButton>
             )}
-            {/* auth */}
 
             <AuthNavItem />
           </Box>
@@ -161,6 +157,6 @@ function TopNavigation(props) {
       />
     </Box>
   );
-}
+};
 
 export default TopNavigation;

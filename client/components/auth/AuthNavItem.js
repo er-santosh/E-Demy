@@ -34,11 +34,19 @@ const AuthNavItem = () => {
 
   const router = useRouter();
   const handleLogout = async () => {
-    await dispatch(logout());
-    await dispatch(reset());
-    toast.success("User is logged out");
-    router.push("/logout");
-    handleCloseUserMenu();
+    await dispatch(logout())
+      .unwrap()
+      .then(() => {
+        router.push("/logout");
+        handleCloseUserMenu();
+      })
+      .then(() => {
+        toast.success("User is logged out");
+        dispatch(reset());
+      })
+      .catch(() => {
+        toast.error("Error logging out");
+      });
   };
 
   return (

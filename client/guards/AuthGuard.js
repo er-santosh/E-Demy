@@ -1,4 +1,3 @@
-import { FallbackLoader } from "components/loader/FallbackLoader";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -26,5 +25,5 @@ export function AuthGuard({ children }) {
   }
 
   /* otherwise don't return anything, will do a redirect from useEffect */
-  return <FallbackLoader />;
+  return null;
 }

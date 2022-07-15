@@ -7,10 +7,14 @@ import store, { persistor } from "../store";
 import ReduxProvider from "../providers/ReduxProvider";
 import { PersistGate } from "redux-persist/integration/react";
 import { AuthGuard } from "../guards/AuthGuard";
-import { PageTransitionLoader } from "../components/loader/PageTransitionLoader";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { FallbackLoader } from "../components/loader/FallbackLoader";
+const PageTransitionLoader = dynamic(() =>
+  import("../components/loader/PageTransitionLoader").then(
+    (mod) => mod.PageTransitionLoader
+  )
+);
 import { useRouter } from "next/router";
 import { GuestGuard } from "guards/GuestGuard";
 
@@ -35,7 +39,7 @@ function MyApp({ Component, pageProps }) {
             position="top-center"
             autoClose={3000}
           />
-          {/* <PageTransitionLoader /> */}
+          <PageTransitionLoader />
           <Suspense fallback={<FallbackLoader />}>
             {router.pathname !== "/_error" && <TopNavigation />}
             {/* if requiresAuth property is present - protect the page */}

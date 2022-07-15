@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import { Container, Box, Backdrop } from "mui";
-import { ScaleLoader } from "react-spinners";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+const FallbackLoader = dynamic(() =>
+  import("./FallbackLoader").then((mod) => mod.FallbackLoader)
+);
 export const PageTransitionLoader = () => {
   const router = useRouter();
   const [isLoaderVisible, setIsLoaderVisible] = useState(false);
@@ -27,24 +29,6 @@ export const PageTransitionLoader = () => {
   }, [router]);
 
   if (isLoaderVisible) {
-    return (
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            marginTop: "50%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Backdrop
-            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open
-          >
-            <ScaleLoader color="purple" loading />
-          </Backdrop>
-        </Box>
-      </Container>
-    );
+    return <FallbackLoader />;
   } else return null;
 };

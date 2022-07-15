@@ -1,7 +1,6 @@
 import { Box, Drawer } from "mui";
 
-import DrawerContent from "../drawer/DrawerContent";
-
+import DrawerContent from "components/drawer/DrawerContent";
 const drawerWidth = 240;
 
 const LeftDrawer = (props) => {
