@@ -10,12 +10,12 @@ import {
 } from "mui";
 import { LanguageIcon } from "mui/icon";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../../store/AuthReducer";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const settings = ["Account", "Dashboard"];
 
@@ -30,30 +30,16 @@ const AuthNavItem = () => {
   };
 
   const dispatch = useDispatch();
-  const { user, isError, isSuccess, isLoading, message } = useSelector(
-    (state) => state.auth
-  );
+  const { user } = useSelector((state) => state.auth);
 
   const router = useRouter();
   const handleLogout = async () => {
     await dispatch(logout());
-  };
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSuccess && !user) {
-      router.push("/logout");
-    }
-
-    if (message !== "" && isSuccess) {
-      toast.success(message);
-    }
+    await dispatch(reset());
+    toast.success("User is logged out");
+    router.push("/logout");
     handleCloseUserMenu();
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, isLoading, router, dispatch]);
+  };
 
   return (
     <>
@@ -71,7 +57,7 @@ const AuthNavItem = () => {
               }}
             >
               <Badge color="primary" overlap="circular" variant="dot">
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src="" />
               </Badge>
             </IconButton>
           </Tooltip>

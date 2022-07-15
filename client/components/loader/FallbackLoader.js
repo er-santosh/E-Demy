@@ -13,7 +13,10 @@ export const FallbackLoader = () => {
         }}
       >
         <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          sx={{
+            backgroundColor: "white",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+          }}
           open
         >
           <ScaleLoader color="purple" loading />

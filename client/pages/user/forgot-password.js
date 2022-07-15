@@ -120,6 +120,6 @@ const ForgotPasswordPage = () => {
   );
 };
 
-ForgotPasswordPage.isGuest = true;
+ForgotPasswordPage.guestMode = true;
 
 export default ForgotPasswordPage;

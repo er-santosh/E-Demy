@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   TextField,
   FormControlLabel,
@@ -12,14 +11,11 @@ import {
 import { LoadingButton } from "mui/lab";
 
 import Link from "next/link";
-import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
-import { reset, register, login } from "../../store/AuthReducer";
+import { register } from "../../store/AuthReducer";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
-
 const signupSchema = yup.object({
   name: yup
     .string("Enter your name")
@@ -36,6 +32,8 @@ const signupSchema = yup.object({
 });
 
 const SignUpPage = () => {
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.auth);
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -48,11 +46,7 @@ const SignUpPage = () => {
       await dispatch(register(values));
     },
   });
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -147,7 +141,5 @@ const SignUpPage = () => {
     </Container>
   );
 };
-
-SignUpPage.isGuest = true;
-
+SignUpPage.guestMode = true;
 export default SignUpPage;

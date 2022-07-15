@@ -1,20 +1,37 @@
 import { FallbackLoader } from "components/loader/FallbackLoader";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { reset } from "store/AuthReducer";
 
 export function GuestGuard({ children }) {
-  const { user } = useSelector((state) => state.auth);
   const router = useRouter();
+  const dispatch = useDispatch();
 
+  const { user, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
   useEffect(() => {
-    if (user) {
-      // redirect
-      router.push("/");
+    if (isError) {
+      toast.error(message);
     }
-  }, [router, user]);
 
-  // if auth initialized with a valid user show protected page
+    if (isSuccess || user) {
+      if (message !== "") {
+        toast.success(message);
+      }
+      if (router.query && router.query.from) {
+        router.push(router.query.from);
+      } else {
+        router.push("/");
+      }
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, router, dispatch]);
+
+  // if no auth initialized
   if (!user) {
     return <>{children}</>;
   }

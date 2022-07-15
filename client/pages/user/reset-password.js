@@ -8,7 +8,7 @@ import {
   InputAdornment,
 } from "mui";
 import { LoadingButton } from "mui/lab";
-import { LockIcon, MailIcon } from "mui/icon";
+import { LockIcon } from "mui/icon";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -25,7 +25,7 @@ const resetPasswordSchema = yup.object({
     .oneOf([yup.ref("password"), null], "Confirmation Password donot match"),
 });
 
-const ForgotPasswordPage = () => {
+const ResetPasswordPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const formik = useFormik({
@@ -143,7 +143,5 @@ const ForgotPasswordPage = () => {
     </Container>
   );
 };
-
-ForgotPasswordPage.isGuest = true;
-
-export default ForgotPasswordPage;
+ResetPasswordPage.guestMode = true;
+export default ResetPasswordPage;

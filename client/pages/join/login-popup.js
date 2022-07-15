@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   TextField,
   Grid,
@@ -18,10 +17,8 @@ import {
 } from "mui/icon";
 import Link from "next/link";
 import AuthLoginOption from "../../components/auth/AuthLoginOption";
-import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
-import { reset, login } from "../../store/AuthReducer";
+import { login } from "../../store/AuthReducer";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -63,24 +60,8 @@ const SignInPage = () => {
       await dispatch(login(values));
     },
   });
-  const router = useRouter();
   const dispatch = useDispatch();
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
-
-  useEffect(() => {
-    //error and success toast is handled in authnavitem useEffect
-
-    if (isSuccess || user) {
-      if (router.query && router.query.from) {
-        router.push(router.query.from);
-      } else {
-        router.push("/");
-      }
-    }
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, router, dispatch]);
+  const { isLoading } = useSelector((state) => state.auth);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -197,7 +178,5 @@ const SignInPage = () => {
     </Container>
   );
 };
-
-SignInPage.isGuest = true;
-
+SignInPage.guestMode = true;
 export default SignInPage;
