@@ -26,6 +26,7 @@ export default {
       throw new Error();
     }
     user.password = undefined;
+    user.passwordResetCode = undefined;
     return user;
   },
 
@@ -36,10 +37,6 @@ export default {
     } else {
       throw BadRequestException("Invalid Credentials");
     }
-  },
-
-  async userInfo(id) {
-    return await User.findById(id).select("-password").exec();
   },
 
   async getResetMailOptions(email) {

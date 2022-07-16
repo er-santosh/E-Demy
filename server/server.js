@@ -32,14 +32,14 @@ readdirSync("./routes").map((route) =>
   app.use("/api", require(`./routes/${route}`))
 );
 
-/* error handling middleware */
-app.use(errorHandler);
-
 app.use(csrf({ cookie: true }));
 
 app.get("/api/csrf-token", (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
+
+/* error handling middleware */
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 8000;
 

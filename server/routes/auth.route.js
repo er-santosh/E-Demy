@@ -7,6 +7,7 @@ import {
   forgotPassword,
   resetPassword,
 } from "../controllers/auth.controller";
+
 import { requireSignin } from "../middlewares/auth.middleware";
 const router = express.Router();
 

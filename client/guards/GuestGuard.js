@@ -1,7 +1,4 @@
-const FallbackLoader = dynamic(() =>
-  import("components/loader/FallbackLoader")
-);
-import dynamic from "next/dynamic";
+import { FallbackLoader } from "components/loader/FallbackLoader";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

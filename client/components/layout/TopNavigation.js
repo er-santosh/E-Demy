@@ -23,7 +23,7 @@ const TopNavigation = () => {
 
   const { user } = useSelector((state) => state.auth);
 
-  const isInstructor = false;
+  const isInstructor = user?.role?.includes("Instructor");
 
   return (
     <Box sx={{ display: "flex" }}>

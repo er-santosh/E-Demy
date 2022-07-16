@@ -1,10 +1,7 @@
-import User from "../models/user.model";
-import { hashPassword } from "../utils/auth";
-import jwt from "jsonwebtoken";
 import { transporter } from "../utils/nodemailer";
-import { BadRequestException } from "../utils/exceptions";
 import authService from "../services/auth.service";
 import { signAuthToken } from "../utils/jwt";
+import userService from "../services/user.service";
 
 export const register = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -32,6 +29,7 @@ export const login = async (req, res, next) => {
     const token = await signAuthToken({ _id: user._id });
 
     user.password = undefined;
+    user.passwordResetCode = undefined;
     res.cookie("token", token, {
       httpOnly: true,
       // secure:true
@@ -55,8 +53,10 @@ export const logout = async (req, res, next) => {
 
 export const currentUser = async (req, res, next) => {
   try {
-    const user = await authService.userInfo(req.auth._id);
-    res.json(user);
+    const user = await userService.userInfo(req.auth._id);
+    if (user) {
+      res.json({ ok: true });
+    }
   } catch (error) {
     next(error);
   }

@@ -14,6 +14,10 @@ const CustomMuiTheme = createTheme({
       dark: "#1565c0",
       contrastText: "#fff",
     },
+    dark: {
+      main: "#000000",
+      contrastText: "#fff",
+    },
   },
 });
 

@@ -1,7 +1,7 @@
 import { Container, Typography } from "mui";
 import { useSelector } from "react-redux";
 
-const EditProfile = () => {
+const EditProfilePage = () => {
   const { user } = useSelector((state) => state.auth);
 
   return (
@@ -13,10 +13,11 @@ const EditProfile = () => {
         p: 6,
       }}
     >
-      <Typography>hello user {user.name}</Typography>
+      <Typography>hello user {user?.name}</Typography>
     </Container>
   );
 };
-EditProfile.requiresAuth = true;
 
-export default EditProfile;
+EditProfilePage.requiresAuth = true;
+
+export default EditProfilePage;
