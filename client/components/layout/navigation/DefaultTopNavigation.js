@@ -11,7 +11,7 @@ import {
 import SearchBar from "components/search/SearchBar";
 import CompanyLogo from "components/Logo";
 const LeftDrawer = dynamic(() => import("./LeftDrawer"));
-const AuthNavItem = dynamic(() => import("../auth/AuthNavItem"));
+const AuthNavItem = dynamic(() => import("../../auth/AuthNavItem"));
 import { useSelector } from "react-redux";
 
 const TopNavigation = () => {

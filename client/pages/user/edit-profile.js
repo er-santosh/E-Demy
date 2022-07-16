@@ -1,3 +1,4 @@
+import UserLayout from "components/layout/UserLayout";
 import { Container, Typography } from "mui";
 import { useSelector } from "react-redux";
 
@@ -18,6 +19,8 @@ const EditProfilePage = () => {
   );
 };
 
-EditProfilePage.requiresAuth = true;
+EditProfilePage.layout = (page) => {
+  return <UserLayout>{page}</UserLayout>;
+};
 
 export default EditProfilePage;

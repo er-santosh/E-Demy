@@ -1,3 +1,4 @@
+import { GuestLayout } from "components/layout/GuestLayout";
 import dynamic from "next/dynamic";
 
 const AuthResetPasswordForm = dynamic(() =>
@@ -7,5 +8,9 @@ const AuthResetPasswordForm = dynamic(() =>
 const ResetPasswordPage = () => {
   return <AuthResetPasswordForm />;
 };
-ResetPasswordPage.guestMode = true;
+
+ResetPasswordPage.layout = (page) => {
+  return <GuestLayout>{page}</GuestLayout>;
+};
+
 export default ResetPasswordPage;

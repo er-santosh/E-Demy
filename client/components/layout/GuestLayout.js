@@ -1,11 +1,15 @@
 import { FallbackLoader } from "components/loader/FallbackLoader";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { reset } from "store/AuthReducer";
+const DefaultTopNavigation = dynamic(() =>
+  import("./navigation/DefaultTopNavigation")
+);
 
-export function GuestGuard({ children }) {
+export function GuestLayout({ children }) {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -33,7 +37,12 @@ export function GuestGuard({ children }) {
 
   // if no auth initialized
   if (!user) {
-    return <>{children}</>;
+    return (
+      <>
+        <DefaultTopNavigation />
+        {children}
+      </>
+    );
   }
 
   /* otherwise don't return anything, will do a redirect from useEffect */

@@ -124,7 +124,7 @@ const AuthLoginForm = () => {
             </LoadingButton>
             <Grid container spacing={1}>
               <Grid item component="p">
-                <Link href="/user/forgot-password">Forgot password?</Link>
+                <Link href="/forgot-password">Forgot password?</Link>
               </Grid>
               <Grid item component="p">
                 {`Don't have an account?`}

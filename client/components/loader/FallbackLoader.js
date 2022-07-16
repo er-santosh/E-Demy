@@ -5,7 +5,7 @@ export const FallbackLoader = () => {
   return (
     <Backdrop
       sx={{
-        color: "#fff",
+        backgroundColor: "white",
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
       open

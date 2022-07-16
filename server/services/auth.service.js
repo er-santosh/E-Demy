@@ -66,7 +66,7 @@ export default {
           <p>Please click the button below to change your password.</p>
           <p>Note that this link is valid for 24 hours. After the time limit has expired, you will have to resubmit the request for a password reset.</p>
           <div style="padding:30px">
-          <a target="_blank" href="${process.env.FRONTEND_BASE_URL}/user/reset-password?email=${hashedEmail}&code=${hashedCode}" style="color:white;font-weight:bold;background-color:black;padding:20px;margin-top:10px;margin-bottom:10px;text-decoration:none">Change Your Password</a>
+          <a target="_blank" href="${process.env.FRONTEND_BASE_URL}/reset-password?email=${hashedEmail}&code=${hashedCode}" style="color:white;font-weight:bold;background-color:black;padding:20px;margin-top:10px;margin-bottom:10px;text-decoration:none">Change Your Password</a>
           </div>
 
           <p>If you did not make this request, <a href="${process.env.FRONTEND_BASE_URL}/dummy-support">please contact Support.</a></p>

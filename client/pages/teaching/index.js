@@ -14,7 +14,7 @@ const TeachingPage = () => {
   const { user } = useSelector((state) => state.auth);
   const router = useRouter();
   const isInstructor = user?.role?.includes("Instructor");
-  const paymentSet = user.stripe_account_id && user.stripe_account_id !== "";
+  const paymentSet = user?.stripe_account_id && user?.stripe_account_id !== "";
   useEffect(() => {
     if (isInstructor) {
       router.push("/stripe/payment-setup");

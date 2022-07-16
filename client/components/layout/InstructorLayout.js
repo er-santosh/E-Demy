@@ -3,22 +3,23 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { FallbackLoader } from "components/loader/FallbackLoader";
 import { toast } from "react-toastify";
+import InstructorTopNavigation from "./navigation/InstructorTopNavigation";
 
-const UserRoute = ({ children }) => {
+const InstructorRoute = ({ children }) => {
   const [ok, setOk] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    fetchUser();
+    fetchInstructor();
   }, []);
 
-  const fetchUser = async () => {
+  const fetchInstructor = async () => {
     try {
-      const { data } = await axios.get("/api/current-user");
+      const { data } = await axios.get("/api/current-instructor");
       if (data.ok) setOk(true);
     } catch (err) {
       setOk(false);
-      router.push("/join/login-popup?locale=en-US");
+      router.push("/");
       toast.error(err);
     }
   };
@@ -27,7 +28,11 @@ const UserRoute = ({ children }) => {
     return <FallbackLoader />;
   }
 
-  return <> {children}</>;
+  return (
+    <>
+      <InstructorTopNavigation /> {children}
+    </>
+  );
 };
 
-export default UserRoute;
+export default InstructorRoute;

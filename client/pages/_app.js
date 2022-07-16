@@ -1,32 +1,22 @@
 import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "../customs/CustomMuiTheme";
 import { ToastContainer, Slide } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import store, { persistor } from "../store";
 import ReduxProvider from "../providers/ReduxProvider";
 import { PersistGate } from "redux-persist/integration/react";
-import { AuthGuard } from "../guards/AuthGuard";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
-import { FallbackLoader } from "../components/loader/FallbackLoader";
+import DefaultLayout from "components/layout/DefaultLayout";
 const PageTransitionLoader = dynamic(() =>
   import("../components/loader/PageTransitionLoader").then(
     (mod) => mod.PageTransitionLoader
   )
 );
-import { useRouter } from "next/router";
-import { GuestGuard } from "guards/GuestGuard";
-
-const TopNavigation = dynamic(
-  () => import("../components/layout/TopNavigation"),
-  {
-    suspense: true,
-  }
-);
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
+  const layout =
+    Component.layout || ((page) => <DefaultLayout>{page}</DefaultLayout>);
 
   return (
     <ReduxProvider store={store}>
@@ -40,23 +30,7 @@ function MyApp({ Component, pageProps }) {
             autoClose={3000}
           />
           <PageTransitionLoader />
-          <Suspense fallback={<FallbackLoader />}>
-            {router.pathname !== "/_error" && <TopNavigation />}
-            {/* if requiresAuth property is present - protect the page */}
-            {Component.requiresAuth ? (
-              <AuthGuard>
-                <Component {...pageProps} />
-              </AuthGuard>
-            ) : Component.guestMode ? (
-              <GuestGuard>
-                {/* guest page */}
-                <Component {...pageProps} />
-              </GuestGuard>
-            ) : (
-              // public page
-              <Component {...pageProps} />
-            )}
-          </Suspense>
+          {layout(<Component {...pageProps} />)}
         </ThemeProvider>
       </PersistGate>
     </ReduxProvider>
