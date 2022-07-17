@@ -2,7 +2,7 @@ import { GuestLayout } from "components/layout/GuestLayout";
 import dynamic from "next/dynamic";
 
 const AuthForgotPasswordForm = dynamic(() =>
-  import("components/auth/AuthForgotPasswordForm")
+  import("components/form/ForgotPasswordForm")
 );
 
 const ForgotPasswordPage = () => {

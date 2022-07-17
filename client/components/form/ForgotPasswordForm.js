@@ -1,19 +1,13 @@
 import { useState } from "react";
-import {
-  TextField,
-  Box,
-  Typography,
-  Container,
-  Divider,
-  InputAdornment,
-} from "mui";
-import { LoadingButton } from "mui/lab";
+import { TextField, Box, Container, Divider, InputAdornment } from "mui";
 import { MailIcon } from "mui/icon";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import dynamic from "next/dynamic";
+import FormTitle from "components/form/FormTitle";
+import UIButton from "components/UI/UIButton";
 const AlertBanner = dynamic(() => import("components/banner/AlertBanner"));
 
 const forgotPasswordSchema = yup.object({
@@ -64,15 +58,7 @@ const AuthForgotPasswordForm = () => {
               alignItems: "center",
             }}
           >
-            <Typography
-              component="p"
-              variant="p"
-              sx={{
-                fontWeight: "bold",
-              }}
-            >
-              Forgot Password
-            </Typography>
+            <FormTitle>Forgot Password</FormTitle>
 
             <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
               <Divider
@@ -102,16 +88,13 @@ const AuthForgotPasswordForm = () => {
                 helperText={formik.touched.email && formik.errors.email}
               />
 
-              <LoadingButton
+              <UIButton
+                variant={"loading"}
+                color={"primary"}
                 loading={isLoading}
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2, p: 1.5 }}
-                disabled={isLoading}
               >
                 Reset Password
-              </LoadingButton>
+              </UIButton>
             </Box>
           </Box>
         </Container>

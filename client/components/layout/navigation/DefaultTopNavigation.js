@@ -1,6 +1,6 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { AppBar, Box, IconButton, Toolbar, Typography, Badge } from "mui";
+import { Box, Badge } from "mui";
 import {
   MenuIcon,
   AddShoppingCartIcon,
@@ -13,6 +13,9 @@ import CompanyLogo from "components/Logo";
 const LeftDrawer = dynamic(() => import("./LeftDrawer"));
 const AuthNavItem = dynamic(() => import("../../auth/AuthNavItem"));
 import { useSelector } from "react-redux";
+import BaseNavigation from "./BaseNavigation";
+import UILink from "components/UI/UILink";
+import UIButton from "components/UI/UIButton";
 
 const TopNavigation = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -26,136 +29,69 @@ const TopNavigation = () => {
   const isInstructor = user?.role?.includes("Instructor");
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <AppBar
-        component="nav"
-        position="static"
-        color="transparent"
-        sx={{
-          paddingY: 0.6,
-        }}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <CompanyLogo />
+    <>
+      <BaseNavigation>
+        <UIButton
+          variant="icon"
+          onClick={handleDrawerToggle}
+          sx={{ mr: 2, display: { md: "none" } }}
+        >
+          <MenuIcon />
+        </UIButton>
+        <CompanyLogo />
 
-          <Typography
-            variant="p"
-            sx={{
-              mr: 2,
-              fontSize: 14,
-              display: {
-                xs: "none",
-                md: "block",
-              },
-              color: "inherit",
-            }}
-          >
-            Categories
-          </Typography>
-          <SearchBar />
+        <UILink nav>Categories</UILink>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Typography
-              component="a"
-              href="/teaching/?ref=teach_header"
-              noWrap
-              sx={{
-                mr: 2,
-                fontSize: 14,
-                color: "inherit",
-                display: {
-                  xs: "none",
-                  lg: "inline",
-                },
-              }}
-            >
-              Edemy Business
-            </Typography>
+        <SearchBar />
 
-            <Typography
-              component="a"
-              href="/teaching/?ref=teach_header"
-              noWrap
-              sx={{
-                mr: 2,
-                fontSize: 14,
-                color: "inherit",
-                display: {
-                  xs: "none",
-                  md: "inline",
-                },
-              }}
-            >
-              {isInstructor ? "Instructor" : "Teach on Edemy"}
-            </Typography>
+        <Box sx={{ flexGrow: 0 }}>
+          <UILink href="/#" nav>
+            Edemy Business
+          </UILink>
+          <UILink href="/teaching/?ref=teach_header" nav>
+            {isInstructor ? "Instructor" : "Teach on Edemy"}
+          </UILink>
 
-            {user && (
-              <Typography
-                component="a"
-                href="/teaching/?ref=teach_header"
-                noWrap
-                sx={{
-                  mr: 2,
-                  fontSize: 14,
-                  color: "inherit",
-                  display: {
-                    xs: "none",
-                    md: "inline",
-                  },
-                }}
-              >
-                My Learning
-              </Typography>
-            )}
-            <IconButton
-              color="inherit"
-              edge="start"
-              sx={{ mr: 1, display: { md: "none" } }}
-            >
-              <SearchIcon />
-            </IconButton>
+          {user && (
+            <UILink href="/home/my-courses" nav>
+              My Learning
+            </UILink>
+          )}
+          <UIButton variant={"icon"} sx={{ mr: 1, display: { md: "none" } }}>
+            <SearchIcon />
+          </UIButton>
 
-            {user && (
-              <IconButton color="inherit" edge="start" sx={{ mr: 1 }}>
-                <Badge badgeContent={100} color="primary">
-                  <FavoriteBorderOutlinedIcon />
-                </Badge>
-              </IconButton>
-            )}
-
-            <IconButton color="inherit" edge="start" sx={{ mr: 1 }}>
-              <Badge badgeContent={4} color="primary">
-                <AddShoppingCartIcon />
+          {user && (
+            <UIButton variant={"icon"} sx={{ mr: 1 }}>
+              <Badge badgeContent={100} color="primary">
+                <FavoriteBorderOutlinedIcon />
               </Badge>
-            </IconButton>
+            </UIButton>
+          )}
 
-            {user && (
-              <IconButton color="inherit" edge="start" sx={{ mr: 1 }}>
-                <Badge variant="dot" color="primary" overlap="circular">
-                  <NotificationsNoneOutlinedIcon />
-                </Badge>
-              </IconButton>
-            )}
+          <UIButton variant={"icon"} sx={{ mr: 1 }}>
+            <Badge badgeContent={4} color="primary">
+              <AddShoppingCartIcon />
+            </Badge>
+          </UIButton>
 
-            <AuthNavItem />
-          </Box>
-        </Toolbar>
-      </AppBar>
+          {user && (
+            <UIButton variant={"icon"} sx={{ mr: 1 }}>
+              <Badge variant="dot" color="primary" overlap="circular">
+                <NotificationsNoneOutlinedIcon />
+              </Badge>
+            </UIButton>
+          )}
+
+          <AuthNavItem />
+        </Box>
+      </BaseNavigation>
       <LeftDrawer
         handleDrawerToggle={handleDrawerToggle}
         mobileOpen={mobileOpen}
         user={user}
       />
-    </Box>
+    </>
   );
 };
 

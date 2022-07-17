@@ -1,21 +1,14 @@
-import {
-  TextField,
-  Grid,
-  Box,
-  Divider,
-  InputAdornment,
-  Container,
-  Typography,
-} from "mui";
-import { LoadingButton } from "mui/lab";
+import { TextField, Grid, Box, Divider, InputAdornment, Container } from "mui";
 import { MailIcon, LockIcon } from "mui/icon";
-import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../../store/AuthReducer";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
 import dynamic from "next/dynamic";
+import FormTitle from "components/form/FormTitle";
+import UILink from "components/UI/UILink";
+import UIButton from "components/UI/UIButton";
 const AuthLoginOptionList = dynamic(() =>
   import("components/auth/AuthLoginOptionList")
 );
@@ -53,15 +46,7 @@ const AuthLoginForm = () => {
             alignItems: "center",
           }}
         >
-          <Typography
-            component="p"
-            variant="p"
-            sx={{
-              fontWeight: "bold",
-            }}
-          >
-            Log In to Your Udemy Account!
-          </Typography>
+          <FormTitle>Log In to Your Edemy Account!</FormTitle>
           <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
             <Divider
               sx={{
@@ -112,23 +97,20 @@ const AuthLoginForm = () => {
               helperText={formik.touched.password && formik.errors.password}
             />
 
-            <LoadingButton
-              loading={isLoading}
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2, p: 1.5 }}
-              disabled={isLoading}
-            >
+            <UIButton variant={"loading"} color={"primary"} loading={isLoading}>
               Sign In
-            </LoadingButton>
+            </UIButton>
             <Grid container spacing={1}>
               <Grid item component="p">
-                <Link href="/forgot-password">Forgot password?</Link>
+                <UILink underline href="/forgot-password">
+                  Forgot password?
+                </UILink>
               </Grid>
               <Grid item component="p">
                 {`Don't have an account?`}
-                <Link href="/join/signup-popup?locale=en-US">{"Sign Up"}</Link>
+                <UILink underline href="/join/signup-popup?locale=en-US">
+                  {"Sign Up"}
+                </UILink>
               </Grid>
               <Grid
                 item
@@ -140,9 +122,9 @@ const AuthLoginForm = () => {
                   fontWeight: "bold",
                 }}
               >
-                <Link href="?locale=en-US">
+                <UILink underline href="?locale=en-US">
                   {"Log in with your organization"}
-                </Link>
+                </UILink>
               </Grid>
             </Grid>
           </Box>

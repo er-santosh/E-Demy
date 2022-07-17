@@ -1,21 +1,23 @@
-import { Button } from "mui";
+import UIButton from "components/UI/UIButton";
 
 const AuthLoginOption = ({ icon, title, color }) => {
   return (
-    <Button
+    <UIButton
       startIcon={icon}
-      variant="outlined"
+      outlined
       fullWidth
       sx={{
         my: 0.5,
-        textTransform: "none",
-        display: "flex",
         justifyContent: "start",
         color,
+        ":hover": {
+          backgroundColor: color,
+          color: "white",
+        },
       }}
     >
       Continue with {title}
-    </Button>
+    </UIButton>
   );
 };
 

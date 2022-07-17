@@ -6,17 +6,6 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: purple;
-  text-decoration: none;
-}
-
-p > a{
-  text-decoration: underline;
-}
-
-
-
 * {
   box-sizing: border-box;
 }

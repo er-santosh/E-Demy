@@ -1,11 +1,5 @@
 import AuthLoginOption from "./AuthLoginOption";
-import {
-  MailIcon,
-  LockIcon,
-  FacebookIcon,
-  GoogleIcon,
-  AppleIcon,
-} from "mui/icon";
+import { FacebookIcon, GoogleIcon, AppleIcon } from "mui/icon";
 const authAccountOptions = [
   {
     icon: <FacebookIcon />,

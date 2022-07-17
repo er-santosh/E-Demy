@@ -1,19 +1,13 @@
 import { useState } from "react";
-import {
-  TextField,
-  Box,
-  Typography,
-  Container,
-  Divider,
-  InputAdornment,
-} from "mui";
-import { LoadingButton } from "mui/lab";
+import { TextField, Box, Container, Divider, InputAdornment } from "mui";
 import { LockIcon } from "mui/icon";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/router";
+import FormTitle from "components/form/FormTitle";
+import UIButton from "components/UI/UIButton";
 const resetPasswordSchema = yup.object({
   password: yup
     .string("Enter Password")
@@ -62,15 +56,7 @@ const AuthResetPasswordForm = () => {
           alignItems: "center",
         }}
       >
-        <Typography
-          component="p"
-          variant="p"
-          sx={{
-            fontWeight: "bold",
-          }}
-        >
-          Reset Password
-        </Typography>
+        <FormTitle>Reset Password</FormTitle>
 
         <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
           <Divider
@@ -127,16 +113,9 @@ const AuthResetPasswordForm = () => {
             }
           />
 
-          <LoadingButton
-            loading={isLoading}
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2, p: 1.5 }}
-            disabled={isLoading}
-          >
-            Reset Password
-          </LoadingButton>
+          <UIButton variant={"loading"} color={"primary"} loading={isLoading}>
+            Change Password
+          </UIButton>
         </Box>
       </Box>
     </Container>

@@ -1,7 +1,7 @@
 import { GuestLayout } from "components/layout/GuestLayout";
 import dynamic from "next/dynamic";
 
-const AuthLoginForm = dynamic(() => import("components/auth/AuthLoginForm"));
+const AuthLoginForm = dynamic(() => import("components/form/LoginForm"));
 const SignInPage = () => {
   return <AuthLoginForm />;
 };

@@ -8,14 +8,14 @@ import {
   Container,
 } from "mui";
 
-import { LoadingButton } from "mui/lab";
-
-import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { register } from "../../store/AuthReducer";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
+import FormTitle from "components/form/FormTitle";
+import UILink from "components/UI/UILink";
+import UIButton from "components/UI/UIButton";
 const signupSchema = yup.object({
   name: yup
     .string("Enter your name")
@@ -57,9 +57,7 @@ const AuthSignUpForm = () => {
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
-          Sign Up and start learning
-        </Typography>
+        <FormTitle>Sign Up and start learning</FormTitle>
         <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -111,21 +109,19 @@ const AuthSignUpForm = () => {
             label="Send me special offer,personalised recommendations, and learning tips"
           />
 
-          <LoadingButton
-            loading={isLoading}
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2, p: 1.5 }}
-            disabled={isLoading}
-          >
+          <UIButton variant={"loading"} color={"primary"} loading={isLoading}>
             Sign Up
-          </LoadingButton>
+          </UIButton>
 
           <Typography>
             By signing up, you agree to our{" "}
-            <Link href="?locale=en-US">Terms of Use</Link> and{" "}
-            <Link href="?locale=en-US">Privacy Policy</Link>
+            <UILink underline href="?locale=en-US">
+              Terms of Use
+            </UILink>{" "}
+            and{" "}
+            <UILink underline href="?locale=en-US">
+              Privacy Policy
+            </UILink>
           </Typography>
           <Divider
             sx={{
@@ -134,7 +130,9 @@ const AuthSignUpForm = () => {
           />
           <Typography>
             Already have an account?
-            <Link href="/join/login-popup?locale=en-US">Log In</Link>
+            <UILink underline href="/join/login-popup?locale=en-US">
+              Log In
+            </UILink>
           </Typography>
         </Box>
       </Box>

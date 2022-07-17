@@ -1,4 +1,4 @@
-const AuthSignUpForm = dynamic(() => import("components/auth/AuthSignupForm"));
+const AuthSignUpForm = dynamic(() => import("components/form/SignupForm"));
 
 import { GuestLayout } from "components/layout/GuestLayout";
 import dynamic from "next/dynamic";

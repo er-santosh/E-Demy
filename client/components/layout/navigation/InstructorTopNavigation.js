@@ -1,56 +1,37 @@
 import dynamic from "next/dynamic";
-import { AppBar, Box, IconButton, Toolbar, Typography, Badge } from "mui";
+import { Box, Badge } from "mui";
 import { NotificationsNoneOutlinedIcon } from "mui/icon";
 import CompanyLogo from "components/Logo";
 const AuthNavItem = dynamic(() => import("../../auth/AuthNavItem"));
 import { useSelector } from "react-redux";
+import BaseNavigation from "./BaseNavigation";
+import TextLink from "components/UI/UILink";
+import UIButton from "components/UI/UIButton";
 
 const InstructorTopNavigation = () => {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <AppBar
-        component="nav"
-        position="static"
-        color="transparent"
+    <BaseNavigation>
+      <Box
         sx={{
-          paddingY: 0.6,
+          flexGrow: 1,
         }}
       >
-        <Toolbar>
-          <Box
-            sx={{
-              flexGrow: 1,
-            }}
-          >
-            <CompanyLogo />
-          </Box>
+        <CompanyLogo />
+      </Box>
 
-          <Typography
-            component="a"
-            href="/"
-            noWrap
-            sx={{
-              mr: 2,
-              fontSize: 14,
-              color: "inherit",
-            }}
-          >
-            Student
-          </Typography>
-          {user && (
-            <IconButton color="inherit" edge="start" sx={{ mr: 1 }}>
-              <Badge variant="dot" color="primary" overlap="circular">
-                <NotificationsNoneOutlinedIcon />
-              </Badge>
-            </IconButton>
-          )}
+      <TextLink href="/">Student</TextLink>
+      {user && (
+        <UIButton variant={"icon"} sx={{ mr: 1 }}>
+          <Badge variant="dot" color="primary" overlap="circular">
+            <NotificationsNoneOutlinedIcon />
+          </Badge>
+        </UIButton>
+      )}
 
-          <AuthNavItem />
-        </Toolbar>
-      </AppBar>
-    </Box>
+      <AuthNavItem />
+    </BaseNavigation>
   );
 };
 

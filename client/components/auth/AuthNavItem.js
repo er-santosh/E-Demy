@@ -1,21 +1,13 @@
-import {
-  Button,
-  IconButton,
-  Typography,
-  Tooltip,
-  Avatar,
-  Menu,
-  MenuItem,
-  Badge,
-} from "mui";
+import { Typography, Tooltip, Avatar, Menu, MenuItem, Badge } from "mui";
 import { LanguageIcon } from "mui/icon";
 
 import { useState } from "react";
-import Link from "next/link";
+import UILink from "components/UI/UILink";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../../store/AuthReducer";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import UIButton from "components/UI/UIButton";
 
 const settings = ["Account", "Dashboard"];
 
@@ -54,7 +46,8 @@ const AuthNavItem = () => {
       {user ? (
         <>
           <Tooltip title="Profile">
-            <IconButton
+            <UIButton
+              variant={"icon"}
               onClick={handleOpenUserMenu}
               sx={{
                 p: 0,
@@ -67,7 +60,7 @@ const AuthNavItem = () => {
               <Badge color="primary" overlap="circular" variant="dot">
                 <Avatar alt="Remy Sharp" src="" />
               </Badge>
-            </IconButton>
+            </UIButton>
           </Tooltip>
           <Menu
             sx={{ mt: "45px" }}
@@ -85,65 +78,59 @@ const AuthNavItem = () => {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            <Link href="/user/edit-profile">
-              <MenuItem>
-                <Typography textAlign="center">Profile</Typography>
-              </MenuItem>
-            </Link>
+            <UILink variant={"dropdown"}>Profile</UILink>
             {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
+              <UILink
+                variant={"dropdown"}
+                as={"button"}
+                key={setting}
+                onClick={handleCloseUserMenu}
+              >
+                {setting}
+              </UILink>
             ))}
-            <MenuItem onClick={handleLogout}>
-              <Typography textAlign="center">Logout</Typography>
-            </MenuItem>
+            <UILink as="button" onClick={handleLogout} variant={"dropdown"}>
+              Logout
+            </UILink>
           </Menu>
         </>
       ) : (
         <>
-          <Link href="/join/login-popup?locale=en-US">
-            <Button
-              variant="outlined"
-              color="inherit"
-              sx={{
-                mr: 1,
-                py: 1.1,
-                textTransform: "none",
-                display: {
-                  xs: "none",
-                  md: "inline",
-                },
-              }}
-            >
-              Log In
-            </Button>
-          </Link>
+          <UIButton
+            outlined
+            as="link"
+            href="/join/login-popup?locale=en-US"
+            sx={{
+              mr: 1,
+              py: 1.1,
+              display: {
+                xs: "none",
+                md: "inline",
+              },
+            }}
+          >
+            Log In
+          </UIButton>
 
-          <Link href="/join/signup-popup?locale=en-US">
-            <Button
-              variant="contained"
-              sx={{
-                mr: 1,
-                py: 1.3,
-                backgroundColor: "black",
-                textTransform: "none",
-                display: {
-                  xs: "none",
-                  md: "inline",
-                },
-                ":hover": {
-                  backgroundColor: "black",
-                },
-              }}
-            >
-              Sign Up
-            </Button>
-          </Link>
+          <UIButton
+            as="link"
+            color={"dark"}
+            href="/join/signup-popup?locale=en-US"
+            sx={{
+              mr: 1,
+              py: 1.1,
+              display: {
+                xs: "none",
+                md: "inline",
+              },
+            }}
+          >
+            Sign Up
+          </UIButton>
 
-          <IconButton
+          <UIButton
+            variant={"icon"}
             size="small"
-            color="inherit"
             sx={{
               border: "1px solid",
               display: {
@@ -153,7 +140,7 @@ const AuthNavItem = () => {
             }}
           >
             <LanguageIcon />
-          </IconButton>
+          </UIButton>
         </>
       )}
     </>
