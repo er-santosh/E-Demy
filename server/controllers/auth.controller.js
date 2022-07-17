@@ -53,7 +53,7 @@ export const logout = async (req, res, next) => {
 
 export const currentUser = async (req, res, next) => {
   try {
-    const user = await userService.userInfo(req.auth._id);
+    const user = await userService.findUserById(req.auth._id);
     if (user) {
       res.json({ ok: true });
     }

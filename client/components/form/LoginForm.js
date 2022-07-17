@@ -101,12 +101,12 @@ const AuthLoginForm = () => {
               Sign In
             </UIButton>
             <Grid container spacing={1}>
-              <Grid item component="p">
+              <Grid item>
                 <UILink underline href="/forgot-password">
                   Forgot password?
                 </UILink>
               </Grid>
-              <Grid item component="p">
+              <Grid item>
                 {`Don't have an account?`}
                 <UILink underline href="/join/signup-popup?locale=en-US">
                   {"Sign Up"}
@@ -114,7 +114,6 @@ const AuthLoginForm = () => {
               </Grid>
               <Grid
                 item
-                component="p"
                 sx={{
                   flexGrow: 1,
                   textAlign: "center",

@@ -4,10 +4,11 @@ import { BadRequestException } from "../utils/exceptions";
 import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
 import { signResetToken, verifyResetToken } from "../utils/jwt";
+import userService from "./user.service";
 export default {
   async register(name, email, password) {
     //check user if exist
-    const userExist = await User.findOne({ email });
+    const userExist = await userService.findOneByEmail(email);
     if (userExist) {
       throw BadRequestException("Email is already taken");
     }
@@ -15,23 +16,12 @@ export default {
     //hash password
     const hashedPassword = await hashPassword(password);
 
-    const userInstance = new User({
-      name,
-      email,
-      password: hashedPassword,
-    });
-
-    const user = await userInstance.save();
-    if (!user) {
-      throw new Error();
-    }
-    user.password = undefined;
-    user.passwordResetCode = undefined;
+    const user = await userService.createUser(name, email, hashedPassword);
     return user;
   },
 
   async authenticateUser(email, password) {
-    const userExist = await User.findOne({ email });
+    const userExist = await userService.findOneByEmail(email);
     if (userExist && (await comparePassword(password, userExist.password))) {
       return userExist;
     } else {
